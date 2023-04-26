@@ -1,10 +1,10 @@
 <h1 align="center"> Wave-Function-Collapse </h2>
 <p align="center">
-This is an attempt at creating a wave function collapse in python and pygame. I didn't used ressources to create it so it's not optimised or it might not reflect what a wave function collapse algorithm would do. It stills need some works.
+This is an attempt at creating a wave function collapse in Python and Pygame. I didn't use resources to create it so it's not optimized or it might not reflect what a wave function collapse algorithm would do. It still needs some work.
 </p>
 
-> I have few ideas of improvements/upgrades/fix which will be listed in Future
-
+> I have a few ideas for improvements/upgrades/fixes which will be listed in Future
+> I will update the readme with some schematics drawing to make it clearer
 ## Requirements 
 The program requires PyGame, it can be installed like that :
 ```console
@@ -20,14 +20,14 @@ pip install pygame
 
 ## Information
 ### Dimensions
-You can change the dimension of the tiles for the wave function collapse program making it bigger ( and also faster to generate ) or smaller by changing the value of the variable `D` ( use an integer: 
+You can change the dimension of the tiles for the wave function collapse program making it bigger ( and also faster to generate ) or smaller by changing the value of the variable `D` ( use an integer preferably ): 
 ```python
 D = 1
 ```
 > It took me ~180s to generate it with D=1 and 6 different types of tiles and 3 "checks" ( see later )
 
 ### Rules or conditions
-The program is mainly based on these rules. In this dictionary you can create a new "tile" ( I'm going to use this term for the rest of the readme to design the little pixels/squares which are displayed by the program ) by adding a new `key` to `rules`, and then add has a value an array which contains the conditions/rules of this tile, basicaly it defines near which tiles this particular tile can be created. For example the `Really deep water` (5) water one can be created if it is near `Deep water` (4) or itself (5). 
+The program is mainly based on these rules. In this dictionary you can create a new "tile" ( I'm going to use this term for the rest of the readme to design the little pixels/squares which are displayed by the program ) by adding a new `key` to `rules`, and then add as a value an array which contains the conditions/rules of this tile, basically it defines near which tiles this particular tile can be created. For example, the `Really deep water` (5) water one can be created if it is near `Deep water` (4) or itself (5). 
 
 ```python
 rules = {
@@ -70,9 +70,9 @@ Generation progress: [=================== ] 99% 960399/960400
 Wave function collapse time : 180.973159 s
 Generated tiles : 960400
 ```
-> For the readibility I've replaced the progress bar characters, and for more information about the errors, it'll be below 
+> For readability I've replaced the progress bar characters, and for more information about the errors, it'll be below 
 
-There's also a part of the prints which are disabled line 115 ( at the time of the first push ) named `Debugging`, which I don't recommend you to enable if you want to do big generations ( it will drastically increase the compilation time ). It's useful even though if you want to learn/see more datas. Here's an example of some lines of it :
+There's also a part of the prints which are disabled line 115 ( at the time of the first push ) named `Debugging`, which I don't recommend you to enable if you want to do big generations ( it will drastically increase the compilation time ). It's useful even though if you want to learn/see more details. Here's an example of some lines of it :
 ```sys
 [0, 490, 2]                                   <- The coordinates of the current tile
 Left tile rules : ['0', '5', '4']             <- The rules of the tile at the left of the current one
@@ -83,12 +83,12 @@ Possible tiles : ['0', '4']                   <- The rules which are common to a
 > You can also decide to see the value chosen by the program by looking at the value of `c` line 131 ( at the time of the first push )
 
 ## Algorithm
-This is I believe how a simple wave function collapse algorithm works, so I tried to replicate/create it in python. The main logic behind it is that it will check the neighbor tiles of the current one ( left, top and top left ), in this case it performs 3 "checks". The variable `b` gets the value of each tiles in a specific direction ( look at the function `tileInDir()` for more information, or below if I document it ), this function will return an array like that : [X Position, Y Position, Value]. Then it gets the 3rd element ( or index 2 ) with 
+This is I believe how a simple wave function collapse algorithm works, so I tried to replicate/create it in Python. The main logic behind it is that it will check the neighbor tiles of the current one ( left, top and top left ), in this case, it performs 3 "checks". The variable `b` gets the value of each tile in a specific direction ( look at the function `tileInDir()` for more information, or below if I document it ), this function will return an array like that : [X Position, Y Position, Value]. Then it gets the 3rd element ( or index 2 ) with :
 ```python
 tileInDir(tiles, i, direction)[2]
                               ^^^
 ```
-which is the value of the tile in the specified direction. After this it gets the corresponding rules of this value ( for example 5 has the values 4 and 5, see Rules or conditions). It does this for the 3 directions ( top, left, top left ) and between all these rules, it will search for the ones which are common for the 3 tiles with the function `findCommons()`. For example,
+which is the value of the tile in the specified direction. After this, it gets the corresponding rules of this value ( for example 5 has the values 4 and 5, see Rules or conditions). It does this for the 3 directions ( top, left, top left ), and between all these rules, it will search for the ones which are common for the 3 tiles with the function `findCommons()`. For example,
 if it has 3 arrays like :
 ```
 [ 0, 1, 2 ]
@@ -103,24 +103,28 @@ And after storing the values in common, it will take one of them randomly and th
 b = findCommons(rules[str(tileInDir(tiles, i, 2)[2])], rules[str(tileInDir(tiles, i, 1)[2])], rules[str(tileInDir(tiles, i, 1.5)[2])])
                                              left                                   top                                   top left     
 ```
-It can be changed to get more interesting results, for example it can perform another 3 "checks" variation ( left, top, top right ):
+It can be changed to get more interesting results, for example, it can perform another 3 "checks" variation ( left, top, top right ):
+
 ```python
 b = findCommons(rules[str(tileInDir(tiles, i, 2)[2])], rules[str(tileInDir(tiles, i, 1)[2])], rules[str(tileInDir(tiles, i, 0.5)[2])])
                                              left                                   top                                   top right
 ```
-> However, using this 3 "checks" versions gives error.
+> However, using these 3 "checks" versions gives errors.
+
 ### Errors
 Errors will be displayed as red squares on the map ( this way you will still be able to view the result ), and they're printed in the console like this :
+
 ```sys
 Error ( index of the tile which causes the error in the array tiles )
 ```
 > Observation : errors tend to happen at the top of the generation and way more often with the 3 "checks" ( left, top, top right ), and also with some rules configurations
+
 ### Additional Information
-I haven't commented the program as the Simple Neural Network Visualizer's one, that's why the readme is more complete, and if you know how to fix errors, improve it or something else, please let me know.
+I haven't commented on the program as the Simple Neural Network Visualizer's one, that's why the readme is more complete, and if you know how to fix errors, improve it, or something else, please let me know.
 
 ## Future
-Here's a list of features which could be added in the future :
-- Each tiles can have different spawning probabilities instead of a random choice in the parts with `findCommons()` ( see above ). So this way water could be more present for example, or the probability of water would decrease as the current tile comes closer to the center of the "map", this way it would create a kind of island
-- An error fixing algorithm which would consists in checking error positions the possible values in commons ( with the neighbor tiles), and if there's not a single one, take the most repeated values between the different conditions and then check the tiles around and repeat until there's no more error. It would kind of spread around the positions with errors until there's no errors anymore
-- See what a 4 "checks" would give as result
-- Easier way to switch between the different checks methods and a way to save generations
+Here's a list of features that could be added in the future :
+- Each tile can have different spawning probabilities instead of a random choice in the parts with `findCommons()` ( see above ). So this way water could be more present for example, or the probability of water would decrease as the current tile comes closer to the center of the "map", this way it would create a kind of island
+- An error fixing algorithm which would consist in checking error positions the possible values in commons ( with the neighbor tiles), and if there's not a single one, take the most repeated values between the different conditions and then check the tiles around and repeat until there's no more error. It would kind of spread around the positions with errors until there are no errors anymore
+- See what 4 "checks" would give as a result
+- An easier way to switch between the different checks methods and a way to save generations
