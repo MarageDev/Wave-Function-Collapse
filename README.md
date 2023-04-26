@@ -11,6 +11,12 @@ The program requires PyGame, it can be installed like that :
 pip install pygame
 ```
 > You can find more information on the website https://www.pygame.org/
+## Generations results
+
+| <img src="https://user-images.githubusercontent.com/76840739/234436654-ca076ea2-6946-46ba-9cbe-0bbb7402e5ab.png" width="300px" title="16 Tiles ; D = 245"> | <img src="https://user-images.githubusercontent.com/76840739/234437477-abfbfe61-3a38-4bd1-840b-1bbc932c4f5a.png" width="300px" title="9604 Tiles ; D = 10"> |
+|:--:|:--:|
+| 16 tiles  0,041014 seconds | 9604 tiles  1,645992 seconds |
+
 
 ## Information
 ### Dimensions
