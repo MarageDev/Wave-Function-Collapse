@@ -128,3 +128,5 @@ Here's a list of features that could be added in the future :
 - An error fixing algorithm which would consist in checking error positions the possible values in commons ( with the neighbor tiles), and if there's not a single one, take the most repeated values between the different conditions and then check the tiles around and repeat until there's no more error. It would kind of spread around the positions with errors until there are no errors anymore
 - See what 4 "checks" would give as a result
 - An easier way to switch between the different checks methods and a way to save generations
+- Instead of tiles, the possibility to do it with textures/images
+- Rules/conditions based on direction ( for example a wall could only form 90° angles with another wall )
